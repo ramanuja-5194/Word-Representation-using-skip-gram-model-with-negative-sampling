@@ -4,107 +4,35 @@
 
 This repository contains an implementation of the Skip-gram model with Negative Sampling for learning word embeddings, trained on the [text8 dataset](http://mattmahoney.net/dc/text8.zip). Word embeddings capture semantic and syntactic properties of words in dense vector representations.
 
-## Features
+## Repository Contents
 
-* **Data Download & Preprocessing**: Tokenization, lowercasing, punctuation removal, vocabulary construction.
-* **Model Implementation**: Skip-gram architecture with negative-sampling loss implemented from scratch using NumPy.
-* **Training**: Configurable hyperparameters (embedding dimension, context window size, negative samples, learning rate).
-* **Evaluation**:
+* `Word Representation.ipynb`: Jupyter notebook containing all code for data preprocessing, model implementation, training, and evaluation.
+* `text8.zip`: Compressed text8 dataset.
+* `README.md`: Project documentation (this file).
 
-  * 2D visualization of embeddings via SVD.
-  * Analogy tests (e.g., “king” - “man” + “woman” ≈ “queen”).
-* **Hyperparameter Analysis**: Impact of embedding size, window size, and negative sample count on embedding quality.
+## Notebook Structure
 
-## Repository Structure
+The `Word Representation.ipynb` notebook includes:
 
-```
-├── data
-│   └── text8.zip            # Downloaded text8 dataset
-├── notebooks
-│   └── Word2Vec.ipynb       # Exploratory work and results
-├── src
-│   ├── preprocess.py        # Text cleaning and vocabulary creation
-│   ├── dataset.py           # Generating training pairs and negative samples
-│   ├── model.py             # Skip-gram model implementation
-│   ├── train.py             # Training loop and logging
-│   └── evaluate.py          # Visualization and analogy evaluation
-├── requirements.txt         # Python package dependencies
-└── README.md                # Project documentation
-```
+1. **Data Preprocessing**: Downloading and extracting `text8.zip`, cleaning, tokenization, and vocabulary creation.
+2. **Dataset Generation**: Constructing positive skip-gram pairs and sampling negative examples.
+3. **Model Definition**: Implementing the Skip-gram architecture with Negative Sampling loss using NumPy.
+4. **Training**: Training loop with configurable hyperparameters such as embedding dimension, context window size, number of negative samples, batch size, epochs, and learning rate.
+5. **Evaluation**:
 
-## Installation
+   * **2D Visualization**: Projecting embeddings via SVD and plotting in 2D.
+   * **Analogy Tests**: Performing word analogies (e.g., “king” - “man” + “woman” ≈ “queen”).
+6. **Hyperparameter Discussion**: Analysis of how embedding dimension, window size, and negative sample count affect embedding quality.
 
-1. **Clone the repository**:
+## Hyperparameter Configuration
 
-   ```bash
-   git clone https://github.com/<your-username>/word2vec-skipgram-ns.git
-   cd word2vec-skipgram-ns
-   ```
-2. **Create a virtual environment** (optional but recommended):
+Within the notebook, you can adjust:
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-3. **Install dependencies**:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Data Preparation
-
-1. **Download** the text8 dataset into the `data/` directory:
-
-   ```bash
-   wget http://mattmahoney.net/dc/text8.zip -P data/
-   unzip data/text8.zip -d data/
-   ```
-2. **Run preprocessing** to generate tokens and vocabulary:
-
-   ```bash
-   python src/preprocess.py --input data/text8 --output data/processed.pkl --min-count 5
-   ```
-
-## Training the Model
-
-Train the Skip-gram model with negative sampling:
-
-```bash
-python src/train.py \
-  --data-path data/processed.pkl \
-  --embed-dim 100 \
-  --window-size 5 \
-  --neg-samples 5 \
-  --batch-size 512 \
-  --epochs 5 \
-  --learning-rate 0.025 \
-  --save-path models/sg_ns_embed.npy
-```
-
-## Evaluation
-
-* **2D Visualization**:
-
-  ```bash
-  python src/evaluate.py --mode visualize --embed-path models/sg_ns_embed.npy --output figures/embeddings_2d.png
-  ```
-* **Analogy Tests**:
-
-  ```bash
-  python src/evaluate.py --mode analogy --embed-path models/sg_ns_embed.npy --questions data/questions-words.txt
-  ```
-
-## Hyperparameter Impact Discussion
-
-* **Embedding Dimension**: Larger dimensions capture finer nuances but may overfit on small corpora and increase computation.
-* **Context Window Size**: Larger windows capture broader context (semantic similarity), smaller windows focus on syntactic relationships.
-* **Negative Samples**: More negative samples can improve embedding quality but slow down training.
-
-## Results Summary
-
-* Achieved semantic analogies with high accuracy on the `questions-words.txt` benchmark.
-* Visual clusters observed for related word groups (e.g., countries, royalty terms).
+* **Embedding Dimension**: Typically 50–300.
+* **Context Window Size**: Typically 2–5.
+* **Negative Samples**: Typically 5–20.
+* **Learning Rate**: Starting around 0.025, decaying over time.
+* **Batch Size** and **Epochs**.
 
 ## Requirements
 
@@ -113,6 +41,11 @@ python src/train.py \
 * matplotlib
 * scikit-learn
 * tqdm
+
+## Results Summary
+
+* Semantic analogies achieved high accuracy on the `questions-words.txt` benchmark.
+* Clear clustering in 2D visualizations for related word groups (e.g., countries, royalty terms).
 
 ## License
 
